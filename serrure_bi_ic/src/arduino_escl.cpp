@@ -49,12 +49,11 @@ void saisieClavier() {
 }
 
 bool envoiVersESP(char message[MAX_CODE_LENGTH]) {
-  
   JsonDocument doc;
   doc["code"] = message;
   String output;
   serializeJson(doc, output);
-  if (espSerial.println(output)!=0) {
+  if (espSerial.print(output)!=0) {
     espSerial.flush(); // Assurez-vous que les données sont envoyées
     espSerial.setTimeout(1000); // Définir un délai d'attente pour la réception
     delay(100); // Attendre un peu pour s'assurer que les données sont envoyées
@@ -64,6 +63,30 @@ bool envoiVersESP(char message[MAX_CODE_LENGTH]) {
   return false; // Envoi échoué
 }
 
+void receptionDepuisESP() {
+  if (espSerial.available()) {
+    String input = espSerial.readStringUntil('\n'); // Lire jusqu'à la fin de ligne
+    JsonDocument doc;
+    DeserializationError error = deserializeJson(doc, input);
+    if (error) {
+      //Serial.println("Erreur de désérialisation JSON");
+      return; // Erreur de désérialisation, ne pas continuer  
+    }
+    const bool isOpen = doc["isOpen"];
+    if (isOpen) {
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Serrure ouverte");
+      // Ici, vous pouvez ajouter le code pour ouvrir la serrure
+      delay(2000); // Afficher le message pendant 2 secondes
+    } else {
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Code incorrect");
+      delay(2000); // Afficher le message pendant 2 secondes  
+    }
+  }
+}
 
 void setup() {
   espSerial.begin(9600); // Initialisation de la communication série
@@ -74,9 +97,15 @@ void loop() {
   if (strcmp(verrou, "fermer") == 0) {
     saisieClavier();
     if (codeComplete) {
-      envoiVersESP(code);
-      codeComplete = false;
-      
+      if (envoiVersESP(code)) 
+        receptionDepuisESP();
+      codeComplete = false; 
+      delay(1000); // Attendre un peu avant de réinitialiser l'affichage
+    } else {
+      lcd.clear();
+      lcd.setCursor(0, 0);
+      lcd.print("Code incomplet");
+      delay(2000); // Afficher le message pendant 2 secondes
     }
   }
 }

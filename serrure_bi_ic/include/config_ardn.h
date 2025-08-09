@@ -54,5 +54,6 @@ LiquidCrystal_I2C lcd(0x27, 16, 2); // Adresse I2C, 16 colonnes, 2 lignes
 void initLCD(); // Fonction pour initialiser l'écran LCD
 void saisieClavier(); // Fonction pour gérer la saisie du clavier
 bool envoiVersESP(char message[MAX_CODE_LENGTH]); // Fonction pour envoyer un message à l'ESP8266
+void receptionDepuisESP(); // Fonction pour recevoir des données de l'ESP8266
 
 #endif // CONFIG_ARDN_H
