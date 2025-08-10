@@ -28,8 +28,8 @@ bool isUserAuthorized(const String& uid) {
   }
 }
 */
-// Initialise l'EEPROM avec le code par défaut si vide
 
+// Initialise l'EEPROM avec le code par défaut si vide
 void initCodeEEPROM() {
   EEPROM.begin(EEPROM_SIZE);
   char code_lu[MAX_CODE_LENGTH];
@@ -106,6 +106,11 @@ void repondreVersArduino(bool codeOK) {
   Serial.flush();
 }
 
+void repondreVersArduino(String msg) {
+  Serial.print(msg); // Envoie le message vers l'Arduino
+  Serial.flush();
+}
+
 void setup() {
   Serial.begin(9600); // UART vers l'ESP8266
   while (!Serial) {
@@ -128,8 +133,8 @@ void loop() {
     //Serial.println("Code correct, déverrouillage...");
     repondreVersArduino(true); // Envoie la réponse vers l'Arduino
     digitalWrite(RELAIS_PIN, HIGH); // Ouvre le relais
+    tone(BUZZER, 1000, 5000); // Buzzer pour indiquer le succès
     delay(5000); // Buzzer actif pendant 1 seconde
-    tone(BUZZER, 1000, 500); // Buzzer pour indiquer le succès
     digitalWrite(RELAIS_PIN, LOW); // Referme le relais
   } else {
     //Serial.println("Code incorrect ou incomplet.");

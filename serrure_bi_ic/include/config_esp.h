@@ -49,6 +49,7 @@ void enregistrerMotDePasse(const char* mdp); // Enregistre le mot de passe dans 
 void initWifi(); // Initialise la connexion Wi-Fi
 bool isUserAuthorized(const String& uid); // Vérifie si l'utilisateur est autorisé
 void repondreVersArduino(bool codeOK); // Envoie la réponse vers l'Arduino
+void repondreVersArduino(String msg);
 
 // ==================Configuration pour l'ESP8266=================
 unsigned long previousMillis = 0; // Pour le contrôle du temps
@@ -56,8 +57,8 @@ const long interval = 1000; // Intervalle de temps pour l'envoi de données
 String msg = ""; // Message à envoyer à l'Arduino
 const char code_par_defaut[MAX_CODE_LENGTH] = "12345";
 //SoftwareSerial ardnSerial(RX_ESP, TX_ESP); // Communication série avec l'ESP8266
-const char* ssid = "youpilab_fibre"; // Nom du réseau Wi-Fi
-const char* password = "i_l@v3_yl2021Fibre"; // Mot de passe du réseau Wi-Fi
+const char* ssid = "HUAWEI-2.4G-KdbN"; // Nom du réseau Wi-Fi
+const char* password = "V7Uhv9gX"; // Mot de passe du réseau Wi-Fi
 AsyncWebServer server(80); // Serveur web asynchrone sur le port
 //===========================================================
 
