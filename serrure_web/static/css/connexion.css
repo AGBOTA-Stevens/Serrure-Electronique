@@ -1,0 +1,99 @@
+body{
+    font-family: Arial, sans-serif;
+    background-color: #656fd7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 80px;
+    margin-bottom: 50px;
+    min-width: 35%;
+    height: 70vh;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 6px 4px 8px rgba(0, 0, 0, 1);
+}
+form {
+    width: 100%;
+    height: 100%;;
+}
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    flex-grow: 3;
+}
+legend {
+    font-size: 1.5em;
+    border-bottom: #333 solid 2px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+label {
+    margin-top: 50px;
+    margin-bottom: 5px;
+    display: block;
+    transform: translateY(192%);
+    color: #12111166;
+    margin-left: 10px;
+    font-size: 1.2rem;
+}
+input[type="text"],
+#password {
+    outline: none;
+    border: none;
+    font-size: 1.2rem;
+    background-color: #656fd7;
+    box-shadow: 5px 5px 5px rgba(252, 252, 252, 1);
+    padding: 0 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    width: 90%;
+    height: 40px;
+    transition: all 0.3s ease-in;
+}
+input[type="text"]:focus,
+#password:focus {
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 1);
+}
+
+input[type="submit"] {
+    margin: 10vh 20% 1vh 40%;
+    background-color: #1b2ed6;
+    color: white;
+    border: 1px solid #060606;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 130px;
+    box-shadow: 5px 5px 0 rgba(0, 0, 0, 1);
+    transition: all 0.3s ease-in;
+}
+
+input[type="submit"]:hover {
+    box-shadow: 5px 5px 0 #f9f9fa;
+}
+
+input[type="submit"]:active {
+    transform: scale(0.95);
+    box-shadow: none;
+    border-color: #f5f6f9;
+    background-color: #656fd7;
+}
+a {
+    color: #ffff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin-top: 20px;
+}

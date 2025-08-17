@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/connexion.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/icons/bootstrap-icons.css' %}?v=2">
+    <title>connexion - Utilisateur</title>
+</head>
+<body>
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <legend>Connexion</legend>
+            <p style="text-align: center;">Connectez-vous pour accéder à votre compte.</p>
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: red; font-family: 'Courier New', Courier, monospace; font-size: 1.2em; text-align: center;">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            <label for="identifiant" id="em">Identifiant:</label><input type="text" id="identifiant" name="identifiant" required="required" class="identifiant"/>
+            <label for="password" id="pwd">Mot de passe:</label><input type="password" id="password" name="password" required="required" class="password"/>
+            <i class="bi bi-eye-slash" style="font-size: 1.2rem; color: black; margin-left: -50px; cursor: pointer;" id="voirMotdePasse" for="password"></i>
+            <input type="submit" value="Se connecté" class="submit"/>
+            <p><a href="{% url 'iot_serrure:send_badge_pass' %}">Mot de passe oublié ? </a></p>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2025 Serrure Electronique. Tout droits réservés.</p>
+    </footer>
+    <script src="{% static 'js/connexion.js' %}?v=2"></script>
+</body>
+</html>
