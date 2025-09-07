@@ -1,0 +1,91 @@
+{% load static %}
+<style>
+    header {
+        position: fixed;   /* fixé par rapport à la fenêtre */
+        top: 0;            /* collé en haut */
+        left: 0;
+        width: 100%;       /* occupe toute la largeur */
+        z-index: 1000;
+    }
+    .nav-bar {
+        display: flex;
+        position: fixed;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        padding: 20px 0;
+        margin: 0;
+        background-color: #333;
+    }
+    .link{
+        color: white;
+        text-decoration: none;
+    }
+    .nav-menu {
+        display: none; /* masqué par défaut */
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+    .nav-tool {
+        display: flex;
+        list-style: none;
+        gap: 20px;
+    }
+
+    .nav-img {
+        width: 20px;
+        height: 30px;
+    }
+    @media (max-width: 768px) {
+        .nav-tool {
+            display: none;
+            transition: display 0.5s ease;
+        }
+        li{
+            width: 100%;
+            padding: 0 5px;
+            cursor: pointer;
+        }
+        .nav-tool.show {
+            display: flex;          /* affiché quand .show est ajouté */
+            flex-direction: column;
+            font-size: 1.2rem;
+            gap: 15px;
+            background-color: #333;
+            position: sticky;
+            align-items: center;
+            justify-content: center;
+            /* top: 70px;               sous la nav */
+            width: 100%;
+            padding: 0;
+        }
+        
+        .nav-menu {
+            display: inline;
+        }
+    }
+
+</style>
+<script>
+    function toggleMenu() {
+        if (document.querySelector('#imgToggle').getAttribute('src') === "{% static 'img/menu.png' %}")
+            document.querySelector('#imgToggle').setAttribute('src', "{% static 'img/close.png' %}");
+        else
+            document.querySelector('#imgToggle').setAttribute('src', "{% static 'img/menu.png' %}");
+        document.querySelector('#navMenu').classList.toggle('show');
+    }
+</script>
+<header>
+    <nav class="nav-bar">
+        
+        <h2><a href="{% url 'iot_serrure:home' %}" class="link"><img type="image/png" src="{% static 'img/favicon.png' %}" alt="" class="nav-img"> serrure-iot</a></h2>
+        <button class="nav-menu nav-img" onclick="toggleMenu()"><img type="image/png" src="{% static 'img/menu.png' %}" alt="" id="imgToggle"></button>
+        <ul class="nav-tool" id="navMenu">
+            <li onclick="document.querySelector('#home').children[0].click();" id="home"><a href="{% url 'iot_serrure:home' %}" class="link">Accueil</a></li>
+            <li onclick="document.querySelector('#log').children[0].click();" id="log"><a href="{% url 'iot_serrure:connexion' %}" class="link">Connexion</a></li>
+        </ul>
+        
+    </nav>
+</header>
