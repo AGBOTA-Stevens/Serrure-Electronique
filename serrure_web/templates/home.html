@@ -4,10 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <title></title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}?v=2">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/icons/bootstrap-icons.css' %}?v=2">
+    <title>Acceuil - iot-serrure</title>
 </head>
 <body>
-    
+    {% include 'navbar.html' %}
+    <main>
+        <h1>Serrure IoT</h1>
+      <!-- Description -->
+      <section class="descrpt">
+        <h2>Description du projet</h2>
+        <p style="text-align: center;">
+          La <b>serrure-iot</b> est une serrure connectée à internet dont le 
+          dévérouillage se fait par un utilisateur autoriser de la plateforme <b><a href="{% url 'iot_serrure:home' %}" style="color: #656fd7;">iot-serrure</a></b> grâce 
+          à son badge d'accès. Une serrure dynamique qui reconnait les tierces personnes capable de le déverouiller où les utilisateurs peuvent eux même gérer leur accès
+          de manière sécuriser. La plateforme <b><a href="{% url 'iot_serrure:home' %}" style="color: #656fd7;">iot-serrure</a></b> est centraliser pour fournir 
+          une api utilisable par la serrure afin d'identifier les utilisateurs. <br>
+          Nous allions découvrir les composants électroniques, les technologies de développement utilisés pour réaliser ce projet.
+        </p>
+      </section>
+
+      <!-- Composants -->
+      <section class="des-compo">
+        <h2 style="text-align: center; color: white; text-decoration: underline;">Composants utilisés</h2>
+        <div class="composants">
+          <a href="https://youpilab.com/components/product/arduino-uno-r3">
+            <img src="" alt="Arduino Uno R3" id="uno">
+            <h4>Arduino UNO R3</h4>
+            <p>
+              Arduino Uno est une carte à microcontrôleur basée sur l ' ATmega328P . 
+              Arduino Uno R3 est la troisième et dernière révision actuelle de l' Arduino Uno.  
+              Il possède 14 broches entrée / sortie numériques, 6 entrées analogiques, un quartz à 16 MHz, une connexion USB, un connecteur d'alimentation, un connecteur ICSP, un bouton de réinitialisation... Il contient tout le nécessaire pour supporter le microcontrôleur. Il peut s'alimenter via un ordinateur avec un  câble USB ; 
+              un adaptateur AC-DC ou une batterie. il peut être programmé avec l'IDE Arduino.
+            </p>
+          </a>
+          <a href="https://youpilab.com/components/product/module-wifi-node-mcu-esp8266-ch340g">
+            <img src="" alt="ESP8266 Node MCU" id="esp">
+            <h4>ESP8266 Node MCU</h4>
+            <p>La carte de développement Wi-Fi NodeMcu ESP8266 Lua CH340 est une technologie Wi-Fi de pointe rapide et peu coûteuse. Technologie basée sur LUA moderne et mature de haut niveau. C'est une unité intégrée avec toutes les ressources disponibles à bord. Il est très simple de compléter les projets Arduino existants ou toute carte de développement disposant de broches d'E/S.</p>
+          </a>
+          <a href="https://youpilab.com/components/product/clavier-matriciel-3x4">
+            <img src="" alt="Clavier matriciel 4x4" id="clavier">
+            <h4>Clavier matriciel 4x4</h4>
+            <p>
+              Le clavier matriciel 4x4 est une interface d'entrée polyvalente et compacte pour les projets électroniques. Il est composé d'une matrice de 3 lignes et 4 colonnes, offrant un total de 12 touches pour l'entrée de données. Ce clavier est constitué d'une membrane fine et flexible avec un support autocollant (il suffit d'enlever le papier) pour pouvoir le fixer sur presque n'importe quel support. Le clavier matriciel 3x4 offre une plus grande variété de touches par rapport à un clavier 1x4. Ce qui le rend adapté à une gamme plus large d'applications. Il est facile à utiliser et à insérer, offrant une 
+              fonctionnalité d'entrée de données pratique et efficace pour les projets électroniques.
+            </p>
+          </a>
+          <a href="https://youpilab.com/components/product/ecran-lcd-16x02-avec-iici2c">
+            <img src="" alt="Ecran lcd" id="lcd">
+            <h4>Ecran LCD 16x02 avec IIC/I2C</h4>
+            <p>
+              L'écran LCD 16x2 est un écran qui peut afficher 2 lignes avec 16 
+              caractères par ligne (simultanément). La couleur des caractères est noire et l'écran à un fond vert. 
+              Cela le rend également lisible dans l'obscurité. Le contraste est réglable. Grâce au module I2C pré-soudé, vous avez besoin de moins de ports IO. Vous pouvez facilement connecter l'écran à un Arduino, Raspberry Pi, ESP32, ESP8266, etc.
+              Il y a 4 fils pour contrôler l'écran : GND, VCC, SDA, SCL.
+            </p>
+          </a>
+          <a href="https://youpilab.com/components/product/module-relais-1-canal-12v">
+            <img src="" alt="Module relais 1 canal 12v" id="relais">
+            <h4>Module relais 1 canal 12v</h4>
+            <p>
+              Ce module relais à 1 canal permet de contrôler/commuter facilement avec 12 V une charge élevée. 
+              La connexion est accessible grâce à des bornes à vis et peut être connectée automatiquement à une carte avec des fils. Ce module est conçu pour commuter 1 charge. 
+              Il s'agit d'une large gamme d'applications telles que tous les contrôles MCU, le secteur industriel, le contrôle PLC, le contrôle de la maison intelligente.
+            </p>
+          </a>
+          <a href="https://youpilab.com/components/product/module-lecteur-rfid">
+            <img src="{% static 'img/rfid.png' %}" alt="Module Lecteur RFID" id="rfid">
+            <h4>Module Lecteur RFID</h4>
+            <p>
+              Le MFRC522 est un circuit intégré de lecture / écriture hautement intégré pour la communication sans contact à 13,56 MHz. 
+              Le lecteur MFRC522 prend en charge les normes ISO / IEC 14443 A / MIFARE et NTAG. 
+              L'émetteur interne du MFRC522 est capable de piloter une antenne de lecture / écriture conçue pour communiquer avec les cartes et transpondeurs ISO / IEC 14443 A / MIFARE sans circuit actif supplémentaire. 
+              Le module récepteur offre une mise en œuvre robuste et efficace pour la démodulation et le décodage des signaux provenant de cartes et de transpondeurs compatibles ISO/IEC 14443 A/MIFARE. 
+              Le module numérique gère la fonctionnalité complète ISO / CEI 14443 A de détection de trame et de détection d'erreur (parité et CRC). 
+              Le MFRC522 prend en charge les produits MF1xxS20, MF1xxS70 et MF1xxS50.
+            </p>
+          </a>
+          <!-- Ajoute d'autres composants ici -->
+        </div>
+      </section>
+
+      <!-- Montage -->
+      <section>
+        <h2>Montage final</h2>
+        <img src="" alt="Montage du projet" style="width:100%;border-radius:8px;">
+        <p>Le montage final inclut l’Arduino, le clavier, le servo et l’écran LCD pour l’affichage.</p>
+      </section>
+    </main>
+    <script src="{% static 'js/home.js' %}?v=2"></script>
 </body>
 </html>

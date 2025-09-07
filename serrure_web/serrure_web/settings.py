@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-jis99$ax@tc+nhfujoa-9d4496%((&4ca_(pjt4d*0*@1c6632
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['43c0f2608314.ngrok-free.app', '127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -75,10 +75,9 @@ WSGI_APPLICATION = 'serrure_web.wsgi.application'
 
 AUTH_USER_MODEL = 'iot_serrure.Users'  # Custom user model
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://*.ngrok-free.app",   # accepte tous les sous-domaines ngrok
-    "https://*.ngrok.app",        # parfois ngrok change de domaine
-]
+#CSRF_TRUSTED_ORIGINS = [
+#    "https://192.168.100.7:8000",
+#]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases

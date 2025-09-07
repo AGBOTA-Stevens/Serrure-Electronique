@@ -1,0 +1,78 @@
+body{
+    margin: 0;
+    scrollbar-width: none;
+    background-color: #656fd7;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+main{
+    margin-top: 80px;
+}
+
+.descrpt {
+    background: url("/static/img/iot-serrure.png") no-repeat center center fixed;
+    background-size: cover;
+    color: white;
+    padding: 90px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.descrpt p {
+    font-size: 0.9rem;
+}
+.des-compo {
+    margin: 0;
+    background-color: #656fd7;
+}
+.composants {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 0;
+    width: 100%;
+    overflow-y: hidden;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 50px 0;
+}
+.composants::-webkit-scrollbar {
+    display: none;
+}
+
+.composants a{
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    transition: all 0.3s ease;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 5px 2px 5px rgba(0,0,0,0.2);
+    background-color: rgba(255, 255, 255, 0.954);
+    padding: 10px 5px;
+    height: 500px;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+.composants p {
+    font-size: 0.9rem;
+    line-height: 200%;
+}
+.composants img {
+    height: 70%;
+    width: 100%;
+    background-color: #ffffffa4;
+    
+}
+@media (max-width: 768px) {
+    .composants img {
+        height: 60%;
+    }
+}
+
+.composants a:hover {
+    transform: translateY(-9px);
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.6);
+}

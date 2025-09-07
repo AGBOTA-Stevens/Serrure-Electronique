@@ -36,7 +36,7 @@ def connexion(request):
         user = authenticate(request, identifiant=identifiant, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse('iot_serrure:home'))
+            return redirect(reverse('iot_serrure:home')) if not user.is_superuser else redirect('/admin/')
         else:
             messages.error(request, 'identifiant ou mot de passe incorrect')
             return render(request, 'connexion.html')
