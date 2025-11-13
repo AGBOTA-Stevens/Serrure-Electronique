@@ -5,7 +5,7 @@
         top: 0;            /* collé en haut */
         left: 0;
         width: 100%;       /* occupe toute la largeur */
-        z-index: 1000;
+        z-index: 1000;     /* au-dessus des autres éléments */  
     }
     .nav-bar {
         display: flex;
@@ -84,7 +84,12 @@
         <button class="nav-menu nav-img" onclick="toggleMenu()"><img type="image/png" src="{% static 'img/menu.png' %}" alt="" id="imgToggle"></button>
         <ul class="nav-tool" id="navMenu">
             <li onclick="document.querySelector('#home').children[0].click();" id="home"><a href="{% url 'iot_serrure:home' %}" class="link">Accueil</a></li>
+            {% if user.is_authenticated %}
+                <li onclick="document.querySelector('#dashboard').children[0].click();" id="dashboard"><a href="{% url 'iot_serrure:dashboard' user.id %}" class="link">{{ user.identifiant}}</a></li>
+                <li onclick="document.querySelector('#logout').children[0].click();" id="logout"><a href="{% url 'iot_serrure:logout' %}" class="link">Déconnexion</a></li>
+            {% else %}
             <li onclick="document.querySelector('#log').children[0].click();" id="log"><a href="{% url 'iot_serrure:connexion' %}" class="link">Connexion</a></li>
+            {% endif %}
         </ul>
         
     </nav>

@@ -27,8 +27,8 @@
             <label for="password" id="pwd">Mot de passe:</label>
             <input type="password" id="password" name="password" required="required" class="password"/>
             <i class="bi bi-eye-slash" style="font-size: 1.2rem; color: black; margin-left: -50px; cursor: pointer;" id="voirMotdePasse"></i>
-            <div id="submit"><input type="submit" value="connexion" class="submit"/></div>
-            <p><a href="{% url 'iot_serrure:send_badge_pass' %}" class="forgotpass">Mot de passe oublié ? </a></p>
+            <div id="submit"><input type="submit" value="CONNEXION" class="submit" id="submit-button"/></div>
+            <p><a href="{% url 'iot_serrure:password_reset' %}" class="forgotpass">Mot de passe oublié ? </a></p>
         </form>
     </div>
     <footer>

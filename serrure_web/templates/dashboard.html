@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/icons/bootstrap-icons.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>iot-serrure | {{ user.name }} {{ user.surname }}</title>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>IoT Serrure</h2>
+        <nav>
+            <img src="{% static 'img/person.png'%}" alt="{{ user.identifiant }}">
+            <ul>
+                <li><a href="{% url 'iot_serrure:home' %}">Accueil</a></li>
+                <li><a href="{% url 'iot_serrure:dashboard' user.id %}">Tableau de bord</a></li>
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'admin:index' %}">Panneau Admin</a></li>
+                {% else %}
+                    <li><a href="#">Modifier mes infos</a></li>
+                {% endif %}
+                <li><a href="{% url 'iot_serrure:logout' %}">Déconnexion</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+        <header class="header">
+            <h1>Tableau de bord</h1>
+        </header>
+
+        <section class="cards">
+            
+            <div class="card">
+                <h3>Nom</h3>
+                <p>{{ user.name }}</p>
+            </div>
+            <div class="card">
+                <h3>Prénom</h3>
+                <p>{{ user.surname }}</p>
+            </div>
+            <div class="card">
+                <h3>Identifiant</h3>
+                <p>{{ user.identifiant }}</p>
+            </div>
+            <div class="card">
+                <h3>Email</h3>
+                <p>{{ user.email }}</p>
+            </div>
+        </section>
+
+        <section class="form-section">
+            <form action="" method="post">
+                {% csrf_token %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color: green; font-family: 'Courier New', Courier, monospace; font-size: 1.2em; text-align: center;">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+                {% if not user.is_active %}
+                <label for="badge" id="badge">Activer le badge</label>
+                {% else %}
+                <label for="badge" id="badge">Désactiver le badge</label>
+                {% endif %}
+                <input type="checkbox" name="badge" style="display: none;" id="badge_input">
+                <input type="submit" id="submit_badge">
+            </form>
+    </main>
+</section>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Création de compte</title>
+</head>
+<body>
+    <h2>Bienvenue sur notre plateforme, {{ surname }} {{ name }}!</h2>
+    <p>Votre compte a été créé avec succès. Voici vos informations de connexion :</p>
+    <ul>
+        <li><strong>Identifiant :</strong> {{ identifiant }}</li>
+        <li><strong>Mot de passe temporaire :</strong> {{ password }}</li>
+    </ul>
+    <p>Pour des raisons de sécurité, vous êtes prié de mettre un nouveau mot de passe.</p>
+    <p>Cliquez sur le lien ci-dessous :</p>
+    <p><a href="https://{{ domain }}{% url 'iot_serrure:password_reset_confirm' uidb64=uid token=token %}">Réinitialiser votre mot de passe avant de vous connecter</a></p>
+    <p>Merci de faire partie de notre communauté!</p>
+    <p>Cordialement,<br>L'équipe de la plateforme</p>
+    
+</body>
+</html>

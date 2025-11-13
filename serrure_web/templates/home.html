@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{% static 'css/home.css' %}?v=2">
     <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}?v=2">
     <link rel="stylesheet" href="{% static 'css/icons/bootstrap-icons.css' %}?v=2">
-    <title>Acceuil - iot-serrure</title>
+    <title>iot-serrure | description de projet</title>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -45,7 +45,7 @@
             <h4>ESP8266 Node MCU</h4>
             <p>La carte de développement Wi-Fi NodeMcu ESP8266 Lua CH340 est une technologie Wi-Fi de pointe rapide et peu coûteuse. Technologie basée sur LUA moderne et mature de haut niveau. C'est une unité intégrée avec toutes les ressources disponibles à bord. Il est très simple de compléter les projets Arduino existants ou toute carte de développement disposant de broches d'E/S.</p>
           </a>
-          <a href="https://youpilab.com/components/product/clavier-matriciel-3x4">
+          <a href="https://youpilab.com/components/product/membrane-44-matrix-keypad">
             <img src="" alt="Clavier matriciel 4x4" id="clavier">
             <h4>Clavier matriciel 4x4</h4>
             <p>
@@ -84,6 +84,15 @@
               Le MFRC522 prend en charge les produits MF1xxS20, MF1xxS70 et MF1xxS50.
             </p>
           </a>
+          <a href="">
+            <img src="" alt="Les jumpers" id="jumper">
+            <h4>Les Jumpers</h4>
+            <p>
+              Les câbles de connexion, également appelés jumpers, sont des fils électriques utilisés pour établir des connexions temporaires entre différents composants électroniques sur une breadboard ou un circuit imprimé. 
+              Ils sont généralement constitués de fils souples avec des connecteurs à chaque extrémité, ce qui permet de les insérer facilement dans les broches des composants ou les trous de la breadboard. 
+              Les câbles de connexion sont disponibles dans une variété de longueurs et de couleurs, ce qui facilite l'organisation et l'identification des connexions dans un circuit.
+            </p>
+          </a>
           <!-- Ajoute d'autres composants ici -->
         </div>
       </section>
@@ -95,6 +104,9 @@
         <p>Le montage final inclut l’Arduino, le clavier, le servo et l’écran LCD pour l’affichage.</p>
       </section>
     </main>
+    <footer>
+        <p id="foot"></p>
+    </footer>
     <script src="{% static 'js/home.js' %}?v=2"></script>
 </body>
 </html>

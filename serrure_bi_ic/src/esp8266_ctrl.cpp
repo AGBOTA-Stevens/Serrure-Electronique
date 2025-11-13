@@ -1,7 +1,41 @@
 #include "config_esp.h"
 
+bool writeBlock(byte blockAddr, byte *data) {
+  MFRC522::StatusCode status;
+  status = rfid.MIFARE_Write(blockAddr, data, 50);
 
+  return (status == MFRC522::STATUS_OK);
+}
 
+// Transforme une chaîne en tableau de bytes
+size_t toBytes(const char* str, byte* buffer, size_t bufsize) {
+    size_t len = strlen(str);
+
+    // Sécurité : ne pas dépasser la taille du buffer
+    if (len > bufsize) {
+        len = bufsize;
+    }
+
+    for (size_t i = 0; i < len; i++) {
+        buffer[i] = (byte)str[i];
+    }
+
+    return len;  // renvoie le nombre de bytes copiés
+}
+
+bool readBlock(byte blockAddr) {
+  byte buffer[50];
+  byte size = sizeof(buffer);
+  
+  MFRC522::StatusCode status = rfid.MIFARE_Read(blockAddr, buffer, &size);
+  if (status == MFRC522::STATUS_OK) {
+    for (byte i = 0; i < 50; i++) {
+      badge[i] = buffer[i];
+    }
+    return true;
+  }
+  return false;
+}
 
 // Fonction pour vérifier si un UID est autorisé
 bool isUserAuthorized(const String& uid) {
@@ -11,31 +45,81 @@ bool isUserAuthorized(const String& uid) {
   return false;
 }
 
-// Fonction pour envoyer un email via une API web (exemple générique)
-/*void notifierNouveauCode(const String& nouveauCode) {
+bool postBadge() {
+  if (WiFi.status() != WL_CONNECTED) return false;
+
   HTTPClient http;
-  for (auto& user : utilisateurs) {
-    String url = "https://votre-api-mail.com/send?to=" + user.email + "&msg=Nouveau code: " + nouveauCode;
-    http.begin(url);
-    int httpCode = http.GET();
-    if (httpCode > 0) {
-      Serial.println("Notification envoyée à " + user.email);
-    } else {
-      Serial.println("Erreur notification " + user.email);
-    }
+  String url = "http://192.168.100.7:8000/api/verifier_badge_pass/"; //http://192.168.100.7:8000/api/verifier_badge_pass/
+  http.begin(client, url); // pour HTTPS: http.begin(client, url)
+  http.addHeader("Content-Type", "application/json");
+  Serial.println("URL: " + url);
+  
+  if (!readBlock(1))
+    return false; // Lire le bloc 1 où le badge est stocké
+  // construire JSON
+  JsonDocument doc;
+  doc["badge_pass"] = badge;
+  String payload;
+  serializeJson(doc, payload);
+
+  int httpCode = http.POST(payload);
+  if (httpCode > 0) {
+    const String resp_body = http.getString();
     http.end();
-    delay(500); // Pour éviter de surcharger l'API
+    JsonDocument d;
+    DeserializationError err = deserializeJson(d, resp_body);
+    if (err) {
+      return false;
+    } else if (d["status"]) {
+      const char* badgeStr = d["badge_pass"];
+      
+      int len = strlen(badgeStr);
+      byte badgeBytes[len];   // buffer
+      toBytes(badgeStr, badgeBytes, sizeof(badgeBytes));
+      return writeBlock(1, badgeBytes);
+    }else {
+      return false;
+    }
+  } else {
+    http.end();
+    return false;
   }
 }
-*/
 
-// Initialise l'EEPROM avec le code par défaut si vide
-void initCodeEEPROM() {
-  EEPROM.begin(EEPROM_SIZE);
-  char code_lu[MAX_CODE_LENGTH];
-  lireCodeEEPROM(code_lu);
-  if (code_lu[0] == '\0' || code_lu[0] == 0xFF) { // EEPROM vide
-    enregistrerMotDePasse(code_par_defaut);
+bool activerBadge() {
+  if (WiFi.status() != WL_CONNECTED) return false;
+
+  HTTPClient http;
+  String url = String(serverName) + "/api/activer_badge_pass/"; //http://192.168.100.7:8000/api/activer_badge_pass/
+  http.begin(client, url); // pour HTTPS: http.begin(client, url)
+  http.addHeader("Content-Type", "application/json");
+  if (!readBlock(1))
+    return false; // Lire le bloc 1 où le badge est stocké
+  JsonDocument doc;
+  doc["code"] = code_recu;
+  String payload;
+  serializeJson(doc, payload);
+
+  int httpCode = http.POST(payload);
+  if (httpCode > 0) {
+    const String resp_body = http.getString();
+    http.end();
+    JsonDocument d;
+    DeserializationError err = deserializeJson(d, resp_body);
+    if (err) {
+      return false;
+    } else if (d["status"]) {
+      const char* badgeStr = d["badge_pass"];
+      int len = strlen(badgeStr);
+      byte badgeBytes[len];   // buffer
+      toBytes(badgeStr, badgeBytes, sizeof(badgeBytes));
+      return writeBlock(1, badgeBytes);
+    }else {
+      return false;
+    }
+  } else {
+    http.end();
+    return false;
   }
 }
 
@@ -50,13 +134,7 @@ void initWifi() {
   Serial.println("Connecté au Wi-Fi");
 }
 
-// Lit le code PIN depuis l'EEPROM
-void lireCodeEEPROM(char* code_lu) {
-  for (int i = 0; i < MAX_CODE_LENGTH; i++) {
-    code_lu[i] = EEPROM.read(addr + i);
-  }
-  code_lu[MAX_CODE_LENGTH - 1] = '\0';
-}
+
 
 void enregistrerMotDePasse(const char* mdp) {
   for (int i = 0; i < MAX_CODE_LENGTH; i++) {
@@ -72,28 +150,24 @@ bool verifierCode() {
     JsonDocument doc;
     DeserializationError error = deserializeJson(doc, input);
     if (error) {
-      //Serial.println("Erreur de désérialisation JSON");
+      Serial.println("Erreur de désérialisation JSON");
       //tone(BUZZER, 4000, 1000); // Buzzer pour indiquer l'erreur
       return false;
     }
-    const char* code_recu = doc["code"];
-    //Serial.println("Code reçu: " + String(code_recu));
+    const char* code = doc["code"];
+    int len = strlen(code);
+    for (int i = 0; i<len; i++) {
+      code_recu[i] = code[i];
+    }
+    Serial.println("Code reçu: " + String(code_recu));
     if (!code_recu) {
-      //Serial.println("Code non trouvé dans le JSON");
+      Serial.println("Code non trouvé dans le JSON");
       //tone(BUZZER, 4000, 1000); // Buzzer pour indiquer l'erreur
       return false;
     }
-    char code_lu[MAX_CODE_LENGTH];
-    lireCodeEEPROM(code_lu);
-    if ((strncmp(code_lu, code_recu, MAX_CODE_LENGTH) == 0)) {
-      //Serial.println("Code lu depuis l'EEPROM: " + String(code_lu));
-      //tone(BUZZER, 1000, 500); // Buzzer pour indiquer le succès
-      return true; // Code correct
-    }
-    return false; // Code incorrect
+    return true;
   }
-  //Serial.println("Aucune donnée disponible sur l'ESP8266");
-  //tone(BUZZER, 4000, 1000); // Buzzer pour indiquer l'échec
+  Serial.println("Aucun code reçu");
   return false;
 }
 
@@ -116,8 +190,7 @@ void setup() {
   while (!Serial) {
     ; // Attendre que l'Arduino soit prêt
   }
-  initCodeEEPROM(); // Initialise l'EEPROM avec le code par défaut si vide
-  //initWifi(); // Initialise la connexion Wi-Fi
+  initWifi(); // Initialise la connexion Wi-Fi
   SPI.begin(); // Initialise le bus SPI
   rfid.PCD_Init(); // Initialise le module MFRC522
   delay(4); // Petit délai pour la stabilité
@@ -130,15 +203,23 @@ void setup() {
 
 void loop() {
   if (verifierCode()) {
-    //Serial.println("Code correct, déverrouillage...");
-    repondreVersArduino(true); // Envoie la réponse vers l'Arduino
-    digitalWrite(RELAIS_PIN, HIGH); // Ouvre le relais
-    tone(BUZZER, 1000, 5000); // Buzzer pour indiquer le succès
-    delay(5000); // Buzzer actif pendant 1 seconde
-    digitalWrite(RELAIS_PIN, LOW); // Referme le relais
+    activerBadge();
   } else {
     //Serial.println("Code incorrect ou incomplet.");
-    repondreVersArduino(false); // Envoie la réponse vers l'Arduino
+    repondreVersArduino("Non"); // Envoie la réponse vers l'Arduino
+    delay(2000); // Attendre avant de vérifier à nouveau
+  }
+  if (postBadge()) {
+    //Serial.println("Badge mis à jour avec succès.");
+    repondreVersArduino("Oui"); // Envoie la réponse vers l'Arduino
+    tone(BUZZER, 2000, 500); // Buzzer pour indiquer le succès
+    digitalWrite(RELAIS_PIN, HIGH); // Active le relais pour ouvrir la porte
+    delay(5000); // Garde la porte ouverte pendant 5 secondes
+    digitalWrite(RELAIS_PIN, LOW); // Désactive le relais pour fermer la porte
+  } else {
+    //Serial.println("Échec de la mise à jour du badge.");
+    repondreVersArduino("Non"); // Envoie la réponse vers l'Arduino
+    tone(BUZZER, 4000, 1000); // Buzzer pour indiquer l'erreur
     delay(2000); // Attendre avant de vérifier à nouveau
   }
 }

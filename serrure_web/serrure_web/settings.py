@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-jis99$ax@tc+nhfujoa-9d4496%((&4ca_(pjt4d*0*@1c6632
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.100.7', '127.0.0.1']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',  # Django REST Framework for API development
     'iot_serrure',  # Custom app for IoT serrure
+    #'iot_serrure.apps.IotSerrureConfig',  # Ensure signals are loaded
 ]
 
 MIDDLEWARE = [
@@ -75,9 +76,12 @@ WSGI_APPLICATION = 'serrure_web.wsgi.application'
 
 AUTH_USER_MODEL = 'iot_serrure.Users'  # Custom user model
 
-#CSRF_TRUSTED_ORIGINS = [
-#    "https://192.168.100.7:8000",
-#]
+CSRF_TRUSTED_ORIGINS = [
+    "http://192.168.100.7:8000",
+]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -93,6 +97,17 @@ DATABASES = {
     }
 }
 
+# EMAIL configuration
+# https://docs.djangoproject.com
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER')
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

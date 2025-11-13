@@ -1,0 +1,107 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    resize: both;
+    overflow: scroll;
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: #333;
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+.sidebar img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 10px;
+}
+.sidebar h2 {
+    text-align: center;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+.sidebar li {
+    margin: 15px 0;
+}
+.sidebar a {
+    color: white;
+    text-decoration: none;
+}
+.sidebar a:hover {
+    text-decoration: underline;
+}
+
+/* Main */
+.main {
+    flex: 1;
+    padding: 20px;
+    background: #656fd7;
+}
+.header {
+    margin-bottom: 20px;
+}
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+.status.locked {
+    color: red;
+    font-weight: bold;
+}
+.form-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 9px;
+}
+label#badge {
+    text-align: center;
+    height: 20px;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.charts {
+    margin-top: 30px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+    }
+    .main {
+        padding: 10px;
+    }
+    .cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+#submit_badge {
+    display: none;
+}

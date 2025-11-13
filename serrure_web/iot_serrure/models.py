@@ -42,11 +42,12 @@ class UserManager(BaseUserManager):
 
 
 class Users(AbstractBaseUser, PermissionsMixin):
-    name = models.CharField(unique=True, max_length=150)
+    name = models.CharField(max_length=150)
     surname = models.CharField(max_length=150)
     identifiant = models.CharField(max_length=150, unique=True, blank=True)
     email = models.EmailField(unique=True, max_length=150)
     password = models.CharField(max_length=255)
+    code = models.CharField(max_length=5, blank=True)
     last_login = models.DateTimeField(auto_now_add=True)
     is_superuser = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)

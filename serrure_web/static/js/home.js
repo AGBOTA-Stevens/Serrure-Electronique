@@ -3,6 +3,8 @@ const esp = document.querySelector('#esp');
 const clavier = document.querySelector('#clavier');
 const lcd = document.querySelector('#lcd');
 const relais = document.querySelector('#relais');
+const foot = document.querySelector('#foot');
+const jumper = document.querySelector('#jumper');
 const uno_list = [
     "/static/img/arduino.png",
     "/static/img/arduino.jpg",
@@ -37,6 +39,12 @@ const relais_list = [
     "/static/img/relais3.png",
     "/static/img/relais4.png"
 ]; // Liste des images pour le module relais
+
+const jumper_list = [
+    "/static/img/jumpers1.jpg",
+    "/static/img/jumpers2.jpg",
+    "/static/img/jumpers3.jpg"
+]; // Liste des images pour les jumpers
 
 var j = 0;
 const uno_change = async () => {
@@ -75,9 +83,20 @@ const relais_change = async () => {
     relais.src = relais_list[m];
     m++;
 }
+var n = 0;
+const jumper_change = async () => {
+    if (n===jumper_list.length)
+        n =0;
+    jumper.src = jumper_list[n];
+    n++;
+}
 
+setInterval(jumper_change, 5300);
 setInterval(relais_change, 5200);
 setInterval(clavier_change, 5100);
 setInterval(lcd_change, 5000);
 setInterval(uno_change, 5090);
 setInterval(esp_change, 5900);
+
+const old = new Date().getFullYear();
+foot.innerHTML = `&copy; ${old} Serrure Electronique. Tout droits réservés.`

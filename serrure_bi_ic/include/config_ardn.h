@@ -47,7 +47,7 @@ Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, ROWS, COLS); // Initi
 //===========================================================
 
 // ==================LCD configuration=================
-LiquidCrystal_I2C lcd(0x27, 16, 2); // Adresse I2C, 16 colonnes, 2 lignes
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Adresse I2C, 16 colonnes, 2 lignes SDA=A4, SCL=A5
 //===========================================================
 
 // Les fonctions prototypes
